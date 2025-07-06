@@ -22,6 +22,8 @@ import { drinks } from './data/drinks';
 import Sakura from './components/Sakura';
 import ButtonSound from './components/ButtonSound';
 import backgroundImage from './assets/background.png';
+import countdownSound from './assets/sounds/countdown.wav';
+import sessionStartSound from './assets/sounds/session-start.wav';
 
 const PomodoroTimer = () => {
 
@@ -38,42 +40,80 @@ const PomodoroTimer = () => {
   const [selectedDrink, setSelectedDrink] = useState('Moonlit Matcha');
   const [tasks, setTasks] = useState([]);
   const intervalRef = useRef(null);
+  const countdownPlayedRef = useRef(false);
 
 
   // ═══════════════════════════════════════════════════════════════
   // TIMER LOGIC - Heart of the Pomodoro Technique
   // ═══════════════════════════════════════════════════════════════
 
+  /**
+ * Play countdown sound for session transition warning (3 seconds left)
+ */
+  const playCountdownSound = () => {
+    try {
+      const audio = new Audio(countdownSound);
+      audio.volume = 0.4; // Noticeable but not jarring
+      audio.play().catch(error => {
+        console.log('Countdown sound failed to play:', error);
+      });
+    } catch (error) {
+      console.log('Countdown sound error:', error);
+    }
+  };
+
+  /**
+   * Play session start sound when beginning a new focus session
+   */
+  const playSessionStartSound = () => {
+    try {
+      const audio = new Audio(sessionStartSound);
+      audio.volume = 0.3; // Gentle and encouraging
+      audio.play().catch(error => {
+        console.log('Session start sound failed to play:', error);
+      });
+    } catch (error) {
+      console.log('Session start sound error:', error);
+    }
+  };
+
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
+      if (timeLeft === 3 && !isBreak && !countdownPlayedRef.current) {
+        playCountdownSound();
+        countdownPlayedRef.current = true;
+      }
+      
       intervalRef.current = setInterval(() => {
         setTimeLeft(prev => prev - 1);
       }, 1000);
     } else if (timeLeft === 0) {
-  clearInterval(intervalRef.current);
-  
-  if (isBreak) {
-    // Break finished - check if there are more sessions
-    if (sessions < totalSessions) {
-      // Start next work session automatically
-      setIsBreak(false);
-      setTimeLeft(25 * 60);
-      setSessions(prev => prev + 1);
-      setIsRunning(true); // Auto-start next session
+      clearInterval(intervalRef.current);
+      countdownPlayedRef.current = false; // Reset countdown flag
+      
+      if (isBreak) {
+        // Break finished - check if there are more sessions
+        if (sessions < totalSessions) {
+          // Start next work session automatically
+          setIsBreak(false);
+          setTimeLeft(25 * 60);
+          setSessions(prev => prev + 1);
+          setIsRunning(true); // Auto-start next session
+          setTimeout(() => playSessionStartSound(), 100); // Small delay for better UX
+        } else {
+          // All sessions completed
+          setIsRunning(false);
+          setIsBreak(false);
+          setSessions(1); // Reset sessions
+          setTimeLeft(25 * 60);
+        }
+      } else {
+        // Work session finished - start break automatically
+        setIsBreak(true);
+        setTimeLeft(5 * 60);
+        setIsRunning(true); // Auto-start break
+      }
     } else {
-      // All sessions completed
-      setIsRunning(false);
-      setIsBreak(false);
-      setSessions(1); // Reset sessions
-      setTimeLeft(25 * 60);
-    }
-  } else {
-    // Work session finished - start break automatically
-    setIsBreak(true);
-    setTimeLeft(5 * 60);
-    setIsRunning(true); // Auto-start break
-  }
-  } else {
       clearInterval(intervalRef.current);
     }
 
@@ -95,7 +135,13 @@ const PomodoroTimer = () => {
   // ═══════════════════════════════════════════════════════════════
 
   const handlePlayPause = () => {
+    const wasRunning = isRunning;
     setIsRunning(!isRunning);
+    
+    // Play session start sound when starting the very first session
+    if (!wasRunning && !isBreak && sessions === 1 && timeLeft === 25 * 60) {
+      setTimeout(() => playSessionStartSound(), 100);
+    }
   };
 
   const handleStop = () => {
@@ -103,6 +149,7 @@ const PomodoroTimer = () => {
     setIsBreak(false);
     setTimeLeft(25 * 60);
     setSessions(1);
+    countdownPlayedRef.current = false; // Reset countdown flag
   };
 
   const addSession = () => {

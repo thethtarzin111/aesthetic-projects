@@ -3,12 +3,12 @@ const path = require('path');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 400,  
-    height: 650, 
+    width: 400,
+    height: 650,
     frame: false,
     resizable: false,
     show: false,
-    icon: path.join(__dirname, 'icon.ico'),
+    icon: path.join(__dirname, 'icon.ico'), // Your custom icon
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -31,7 +31,11 @@ function createWindow() {
     mainWindow.close();
   });
 
+  // 🎯 IMPORTANT: Load from dist folder (for Vite)
   mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+  
+  // Optional: Add dev tools temporarily to debug
+  //mainWindow.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

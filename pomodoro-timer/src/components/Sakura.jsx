@@ -1,4 +1,13 @@
-// Sakura petals animation component
+/**
+ * Sakura.jsx - Magical Floating Petals
+ * 
+ * Creates a peaceful, magical atmosphere with:
+ * - Randomly generated cherry blossom petals
+ * - Natural falling animation with CSS
+ * - Varying sizes and opacity for depth
+ * - Continuous gentle animation loop
+ */
+
 import React, { useEffect } from 'react';
 
 const Sakura = () => {

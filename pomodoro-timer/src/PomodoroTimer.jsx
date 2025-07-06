@@ -1,3 +1,19 @@
+/**
+ * PomodoroTimer.jsx - Main Application Component
+ * 
+ * A cute, aesthetic Pomodoro timer featuring:
+ * - Animated drink icons with original artwork
+ * - Automatic transitions between focus and break sessions
+ * - Built-in task management system
+ * - Magical sakura petal effects
+ * - Beautiful cozy background with custom window controls
+ * 
+ * The timer follows the Pomodoro Technique:
+ * - 25 minutes of focused work
+ * - 5 minutes of break time
+ * - Customizable number of sessions
+ */
+
 import React, { useState, useEffect, useRef } from 'react';
 import TimeDisplay from './components/TimeDisplay';
 import Menu from './components/Menu';
@@ -5,8 +21,14 @@ import TasksDisplay from './components/TasksDisplay';
 import { drinks } from './data/drinks';
 import Sakura from './components/Sakura';
 import ButtonSound from './components/ButtonSound';
+import backgroundImage from './assets/background.png';
 
 const PomodoroTimer = () => {
+
+  // ═══════════════════════════════════════════════════════════════
+  // STATE MANAGEMENT
+  // ═══════════════════════════════════════════════════════════════
+
   const [currentView, setCurrentView] = useState('timer');
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
@@ -16,6 +38,11 @@ const PomodoroTimer = () => {
   const [selectedDrink, setSelectedDrink] = useState('Moonlit Matcha');
   const [tasks, setTasks] = useState([]);
   const intervalRef = useRef(null);
+
+
+  // ═══════════════════════════════════════════════════════════════
+  // TIMER LOGIC - Heart of the Pomodoro Technique
+  // ═══════════════════════════════════════════════════════════════
 
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
@@ -53,11 +80,19 @@ const PomodoroTimer = () => {
     return () => clearInterval(intervalRef.current);
   }, [isRunning, timeLeft, isBreak, sessions, totalSessions]);
 
+  // ═══════════════════════════════════════════════════════════════
+  // UTILITY FUNCTIONS
+  // ═══════════════════════════════════════════════════════════════
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  // ═══════════════════════════════════════════════════════════════
+  // TIMER CONTROL HANDLERS
+  // ═══════════════════════════════════════════════════════════════
 
   const handlePlayPause = () => {
     setIsRunning(!isRunning);
@@ -78,6 +113,10 @@ const PomodoroTimer = () => {
     setTotalSessions(prev => Math.max(1, prev - 1));
   };
 
+  // ═══════════════════════════════════════════════════════════════
+  // TASK MANAGEMENT FUNCTIONS
+  // ═══════════════════════════════════════════════════════════════
+
   const addTask = (taskText) => {
     if (taskText.trim()) {
       setTasks(prev => [...prev, {
@@ -97,6 +136,10 @@ const PomodoroTimer = () => {
   const deleteTask = (id) => {
     setTasks(prev => prev.filter(task => task.id !== id));
   };
+
+  // ═══════════════════════════════════════════════════════════════
+  // COMPONENT PROPS CONFIGURATION
+  // ═══════════════════════════════════════════════════════════════
 
   const timerProps = {
     timeLeft,
@@ -129,12 +172,16 @@ const PomodoroTimer = () => {
     setCurrentView
   };
 
+  // ═══════════════════════════════════════════════════════════════
+  // RENDERING UI
+  // ═══════════════════════════════════════════════════════════════
+
   return (
     <div className="w-screen h-screen m-0 p-0 flex items-center justify-center bg-black">
       <div 
         className="w-[400px] h-[650px] relative overflow-hidden flex items-center justify-center m-0 p-0"
         style={{
-          backgroundImage: "url('/background.png')",
+          backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           margin: 0,

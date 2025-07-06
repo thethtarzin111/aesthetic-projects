@@ -1,3 +1,14 @@
+/**
+ * TimeDisplay.jsx - Main Timer Interface
+ * 
+ * The heart of the Pomodoro experience featuring:
+ * - Large, readable timer display with custom font
+ * - Animated drink companion that changes based on selection
+ * - Play/pause and stop controls with satisfying audio feedback
+ * - Session management (add/remove total sessions)
+ * - Dynamic "Focus!" or "Break!" headers
+ 
+ */
 import React from 'react';
 import { Play, Pause, Square, Plus } from 'lucide-react';
 import ButtonSound from './ButtonSound';

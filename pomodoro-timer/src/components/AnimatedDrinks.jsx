@@ -1,4 +1,13 @@
-// components/SmartDrink.jsx - Final clean version
+/**
+ * AnimatedDrinks.jsx - Magical Drink Companion Component
+ * 
+ * Displays cute animated drink icons that serve as productivity companions:
+ * - Shows GIF animations when available
+ * - Falls back to static images gracefully
+ * - Supports custom sizing per drink from drinks.js
+ * - Hover effects and smooth transitions
+ */
+
 import React from 'react';
 
 const AnimatedDrinks = ({ 

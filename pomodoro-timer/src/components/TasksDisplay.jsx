@@ -1,3 +1,15 @@
+/**
+ * TasksDisplay.jsx - Built-in Task Management
+ * 
+ * A cozy task management system that complements the Pomodoro technique:
+ * - Add new tasks with enter key or button
+ * - Toggle completion status
+ * - Separate sections for current and completed tasks
+ * - Delete tasks with confirmation
+ * - Scrollable list for many tasks
+
+ */
+
 import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import ButtonSound from './ButtonSound';

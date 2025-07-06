@@ -3,11 +3,12 @@ const path = require('path');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 400,  // Much smaller width
-    height: 650, // Taller height to match your content
+    width: 400,  
+    height: 650, 
     frame: false,
     resizable: false,
     show: false,
+    icon: path.join(__dirname, 'icon.ico'),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -30,7 +31,7 @@ function createWindow() {
     mainWindow.close();
   });
 
-  mainWindow.loadURL('http://localhost:5173');
+  mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
 }
 
 app.whenReady().then(() => {

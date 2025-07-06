@@ -19,7 +19,7 @@ build/
 dist/
 out/
 
-# Electron builds - too big for GitHub!
+# Electron builds 
 dist-electron/
 *.exe
 *.dmg

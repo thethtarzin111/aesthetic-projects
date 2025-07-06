@@ -1,6 +1,19 @@
+/**
+ * Menu.jsx - Drink Selection Interface
+ * 
+ * A charming menu for choosing your productivity companion:
+ * - Displays all available drinks with animations
+ * - Beautiful grid layout with color-coded backgrounds
+ * - Animated drink icons that preview the timer experience
+ * - Sound feedback on selection
+ * - Back navigation to timer
+
+ */
+
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import ButtonSound from './ButtonSound';
+import AnimatedDrinks from './AnimatedDrinks';
 
 const Menu = ({
     drinks,
@@ -29,10 +42,12 @@ const Menu = ({
                         }}
                         className={`p-4 rounded-2xl ${drink.color} hover:scale-110 transition-transform duration-200 flex flex-col items-center space-y-2`}
                     >
-                        <img 
-                            src={drink.icon} 
-                            alt={drink.name}
-                            className="w-22 h-22 object-contain"
+                        <AnimatedDrinks
+                            drinkName={drink.name}
+                            drinks={drinks}
+                            size="w-22 h-22"
+                            className="object-contain"
+                            useAnimation={true}
                         />
                         <span className="font-pixelify font-bold text-outline-purple text-center text-xl">{drink.name}</span>
                     </ButtonSound>

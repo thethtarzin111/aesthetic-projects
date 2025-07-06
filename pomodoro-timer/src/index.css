@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* index.css */
+.sakura-petal {
+  position: absolute;
+  top: -2rem;
+  animation: fall 5s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.text-outline-purple {
+  color: white;
+  text-shadow:
+    -1px -1px 0 #854FD5, /* top-left */
+     1px -1px 0 #854FD5, /* top-right */
+    -1px  1px 0 #854FD5, /* bottom-left */
+     1px  1px 0 #854FD5; /* bottom-right */
+}

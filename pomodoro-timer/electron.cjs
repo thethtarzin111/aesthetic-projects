@@ -8,7 +8,7 @@ function createWindow() {
     frame: false,
     resizable: false,
     show: false,
-    icon: path.join(__dirname, 'icon.ico'), // Your custom icon
+    icon: path.join(__dirname, 'icon.ico'),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -26,16 +26,37 @@ function createWindow() {
   ipcMain.on('minimize-window', () => {
     mainWindow.minimize();
   });
-
+  
   ipcMain.on('close-window', () => {
     mainWindow.close();
   });
 
-  // 🎯 IMPORTANT: Load from dist folder (for Vite)
-  mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+  // Determine if we're in development or production
+  const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
   
-  // Optional: Add dev tools temporarily to debug
-  //mainWindow.webContents.openDevTools();
+  if (isDev) {
+    // Development: load from Vite dev server
+    mainWindow.loadURL('http://localhost:5173')
+      .then(() => console.log('Dev server loaded successfully'))
+      .catch(err => console.error('Failed to load dev server:', err));
+    
+    // Open DevTools in development
+    mainWindow.webContents.openDevTools();
+  } else {
+    // Production: load from built files
+    const indexPath = path.join(__dirname, 'dist', 'index.html');
+    console.log('Loading production build from:', indexPath);
+    
+    mainWindow.loadFile(indexPath)
+      .then(() => console.log('Production build loaded successfully'))
+      .catch(err => {
+        console.error('Failed to load production build:', err);
+        // Fallback: try loading from app.getAppPath()
+        const fallbackPath = path.join(app.getAppPath(), 'dist', 'index.html');
+        console.log('Trying fallback path:', fallbackPath);
+        return mainWindow.loadFile(fallbackPath);
+      });
+  }
 }
 
 app.whenReady().then(() => {

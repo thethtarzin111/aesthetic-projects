@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "electron": "electron electron.cjs",
     "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron electron.cjs\"",
-    "package-win": "npm run build && electron-packager . pomodoro-timer --platform=win32 --arch=x64 --out=dist/ --overwrite --icon=icon.ico"
+    "package-win": "npm run build && electron-packager . pomodoro-timer --platform=win32 --arch=x64 --out=dist-electron/ --overwrite --icon=icon.ico --ignore=\"node_modules\" --ignore=\"src\" --ignore=\"public\"",
+    "package-win-full": "npm run build && electron-packager . pomodoro-timer --platform=win32 --arch=x64 --out=dist-electron/ --overwrite --icon=icon.ico"
   },
   "dependencies": {
     "lucide-react": "^0.525.0",

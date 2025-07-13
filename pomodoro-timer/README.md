@@ -109,6 +109,10 @@ All visual assets are **100% original artwork** created specifically for this pr
 |------------|------------|-----------|
 | ![Moonlit Matcha](screenshots/moonlit-matcha.gif) | ![Lavender Dream Brew](screenshots/lavender-dream-brew.gif) | ![Sakura Kitsune Soda](screenshots/sakura-kitsune-soda.gif) |
 
+| Background Image | App Icon |
+|------------|------------|
+| ![Background Image](screenshots/background.png)| ![App Icon](screenshots/icon.ico)
+
 *Feel free to use this artwork in your own projects with attribution!*
 
 ## Tech Stack
